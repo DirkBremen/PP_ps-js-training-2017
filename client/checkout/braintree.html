@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
 
 </head>
@@ -21,7 +22,8 @@
         <form id="confirmationForm">
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName" disabled>
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName"
+                    disabled>
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
@@ -31,7 +33,7 @@
                 <label for="street">Street</label>
                 <input type="text" class="form-control" id="street" placeholder="Street" name="street" disabled>
             </div>
-            
+
             <button id="submitButton" type="submit" class="btn btn-default">Place Order</button>
         </form>
     </div>
@@ -56,7 +58,7 @@
 
     <script>
         // Exercise Setup
-        
+
         function onCancel() {
             showDom('paypal-cancel');
         }
@@ -71,7 +73,7 @@
         }
 
         function setupFinish(data) {
-            
+
             document.getElementById('paypal-details').textContent = JSON.stringify(data, null, 2);
             document.getElementById('firstName').value = data.details.firstName;
             document.getElementById('lastName').value = data.details.lastName;
@@ -91,7 +93,7 @@
         }
 
         var auth = 'sandbox_mpkhypqr_wkqn2r5yxbvdgs4r';
-
+        //flow can be also vault for billing agreement
         var braintreePaypalOptions = {
             flow: 'checkout',
             intent: 'authorize',
@@ -113,7 +115,7 @@
         braintree.client.create({
             authorization: auth
         }, function (clientErr, clientInstance) {
-            
+
             // Create data collector
             braintree.dataCollector.create({ client: clientInstance, paypal: true }, function (err, data) {
                 console.log('Risk Data:', data);
@@ -124,27 +126,30 @@
             }, function (paypalCheckoutErr, paypalCheckoutInstance) {
 
                 var braintreeEnvironment = clientInstance.getConfiguration().gatewayConfiguration.environment;
-        
+
                 // Start Paypal Checkout.js Javascript
                 paypal.Button.render({
                     env: braintreeEnvironment === 'production' ? 'production' : 'sandbox',
                     payment: function () {
                         // PART 1: Finish the payment callback.
-                            // use paypalCheckoutInstance to execute the correct function in the braintree SDK
-                            // Argument is braintreePaypalOptions
-                            // Return the result
-                        
-                        
+                        // use paypalCheckoutInstance to execute the correct function in the braintree SDK
+                        // can be executed in console by switching to iframe context (xcomponent__) and executing window.xprops.payment().then(data => console.log(data)).catch(err => console.log(err))
+                        // Argument is braintreePaypalOptions
+                        // Return the result
+                        return paypalCheckoutInstance.createPayment(braintreePaypalOptions);
+
                         // END PART 1;
-                    },   
+                    },
                     onAuthorize: function (data, actions) {
                         // PART 2: Finish onAuthorize callback
-                            // use paypalCheckoutInstance to execute the correct function in the braintree SDK
-                                // Argument is the data returned from paypal
-                                // Return the result
-                                // Then Execute setupFinish function
+                        // use paypalCheckoutInstance to execute the correct function in the braintree SDK
+                        // Argument is the data returned from paypal
+                        // Return the result
+                        // Then Execute setupFinish function
+                        return paypalCheckoutInstance
+                            .tokenizePayment(data)
+                            .then(setupFinish);
 
-                    
                         // END PART 2 
                     },
                     onCancel: onCancel,
@@ -156,25 +161,29 @@
             });
         });
 
-    
-    function transactionSale(data) {
-        var params = {
-            nonce: data.nonce,
-            amount: '10.00'
-        }
-        
-        // PART 3: Complete the Sale transaction
+
+        function transactionSale(data) {
+            var params = {
+                nonce: data.nonce,
+                amount: '10.00'
+            }
+
+            // PART 3: Complete the Sale transaction
             // use the paypal library to execute the AJAX call POST /braintree/sale/nonce
-                // Send the params variable
+            // Send the params variable
             // Then call the handleResponse function
-        
 
-        // END PART 3
-    }
+            return paypal
+                .request
+                .post('/braintree/sale/nonce', params)
+                .then(handleResponse);
+            // END PART 3
+        }
 
-    
+
 
     </script>
-    
+
 </body>
+
 </html>
