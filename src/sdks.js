@@ -13,15 +13,17 @@ export let btGateway = braintree.connect({
 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live 
-    'client_id': 'EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM',
-    'client_secret': 'EO422dn3gQLgDbuwqTjzrFgFtaRLRR5BdHEESmha49TM'
+    'client_id':
+        'AUwffmEqTvZfFZzpxSyD0Lr7GCLxyTxppff6tGv9m2WdNh8VK3o1YZ4HwkTA54iPzOqIO0Cpy1GtdiwS',
+    'client_secret':
+        'EPE1Wv6KetPfsx8McWMIOjwXHE2OiOVnJ-ED9e4FacpGI-pJjbzmaVOYj9Xc5jeQ3WnYoTwEFwWnr4x9'
 });
 export let paypalRest = paypal;
 
 export let paypalClassic = new PayPal({
-    username: 'tok261_biz_api.abc.com',
-    password: '1244612379',
-    signature: 'lkfg9groingghb4uw5' 
+    username: 'merchant74_api1.gmail.com',
+    password: 'NGA3X5HFQCTVHETS',
+    signature: 'A0D2TVkf7Pjk-x7ZaBcqTEtb2NMNACvcwk4XeC-MH8ysEw9UGWgo7hmy'
 });
 
 

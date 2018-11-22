@@ -25,8 +25,8 @@ let krakenOpts = {
         config.set('paypalClassic', paypalClassic);
 
         let c9config = config.get('cloud9');
-        console.log('Visit "http://localhost:3000"');
-        
+        console.log('Visit "http://localhost:8080"');
+
         callback(null, config);
     }
 };
@@ -42,5 +42,5 @@ let server = app.listen(port, ip);
 
 server.on('listening', () => {
     console.log('Server running on ' + server.address().address + ' on port ' + server.address().port + '!');
-    
+
 });
