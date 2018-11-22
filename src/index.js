@@ -25,8 +25,8 @@ let krakenOpts = {
         config.set('paypalClassic', paypalClassic);
 
         let c9config = config.get('cloud9');
-        console.log('Visit https://' + c9config.workspace + '-' + c9config.username + '.c9users.io/');
-
+        console.log('Visit "http://localhost:3000"');
+        
         callback(null, config);
     }
 };
