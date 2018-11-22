@@ -42,10 +42,10 @@ function async3(number) {
         }, 5000);
     });
 }
-    
+
 console.log('Welcome to the promise.all example');
 
-Promise.all([async1(2), async2(5), async3(9) ])
+Promise.all([async1(2), async2(5), async3(9)])
     .then(resolvedValues => {
         console.log(resolvedValues);
     })

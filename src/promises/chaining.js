@@ -55,3 +55,14 @@ async1(1)
     });
 
 console.log('I am at the end of the script');
+
+/*
+Welcome to the promise chaining example
+Async1 function has been executed with 1 as the argument
+I am at the end of the script
+Async2 function has been executed with 7 as the argument
+Async3 function has been executed with 8 as the argument
+Done: number is 8 
+
+try also changing line 47: async(1) to async1(5)
+*/
