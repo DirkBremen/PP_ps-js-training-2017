@@ -78,13 +78,14 @@
             // Use PayPal library to call the Setexpress checkout API endpoint GET /paypal/classic/setexpresscheckout
             // In the then callback return the TOKEN property of the response
             // Return the response from the function call
+            // this will follow the routes folder structure to make the call
 
             return paypal
                 .request
                 .get('/paypal/classic/setexpresscheckout')
                 .then(
                     function (data) {
-                        console.log(data);
+                        return data.TOKEN;
                     }
                 )
 
@@ -101,7 +102,7 @@
             return paypal
                 .request
                 .get('/paypal/classic/getexprescheckout/' + data.paymentToken)
-                .then(formPopulate;
+                .then(formPopulate);
 
             // END PART 2
 
